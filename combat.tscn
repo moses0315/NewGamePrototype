@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3l27342q1oqg"]
+
+[ext_resource type="PackedScene" uid="uid://buwh2hyw2bn5a" path="res://player.tscn" id="1_7uchh"]
+[ext_resource type="Texture2D" uid="uid://bmwvanc6ml3ap" path="res://Assets/icon.svg" id="2_o5kt8"]
+[ext_resource type="Script" path="res://Generater.gd" id="3_xn6up"]
+
+[node name="Combat" type="Node2D"]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(633, 207)
+scale = Vector2(25.6406, 5)
+texture = ExtResource("2_o5kt8")
+
+[node name="Generater" type="Node2D" parent="."]
+script = ExtResource("3_xn6up")
+
+[node name="Player" parent="Generater" instance=ExtResource("1_7uchh")]
+position = Vector2(510, 387)
+
+[node name="Timer" type="Timer" parent="Generater"]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Generater/Timer" to="Generater" method="_on_timer_timeout"]
