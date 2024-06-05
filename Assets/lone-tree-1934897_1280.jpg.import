@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfarrxysthpcy"
-path="res://.godot/imported/Attacks.png-cb8ee4cace89ffe335f194e7b164a162.ctex"
+uid="uid://itjcmkpwh2vw"
+path="res://.godot/imported/lone-tree-1934897_1280.jpg-7026ace53426c81dd17d04d7b1a12b1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Attacks.png"
-dest_files=["res://.godot/imported/Attacks.png-cb8ee4cace89ffe335f194e7b164a162.ctex"]
+source_file="res://Assets/lone-tree-1934897_1280.jpg"
+dest_files=["res://.godot/imported/lone-tree-1934897_1280.jpg-7026ace53426c81dd17d04d7b1a12b1d.ctex"]
 
 [params]
 

@@ -3,7 +3,7 @@ extends CharacterBody2D
 @onready var anim = $AnimationPlayer
 @onready var sprite = $AnimatedSprite2D
 @onready var healthbar = $Healthbar
-
+@export var color : Color
 @export var speed: int
 
 @export var max_health: int
@@ -23,7 +23,7 @@ func _ready():
 	$AnimatedSprite2D/AttackArea2D/CollisionShape2D.disabled = true
 	health = max_health
 	healthbar.max_value = health
-	
+	$AnimatedSprite2D.modulate = color
 func _physics_process(delta):
 	#Basic Enemy Process-------------------------
 	healthbar.value = health
@@ -38,7 +38,7 @@ func _physics_process(delta):
 				sprite.scale.x = -1
 			elif direction.x >= 0:
 				sprite.scale.x = 1
-			attack()		
+			attack()
 		else:
 			var direction = (player.position-position).normalized()
 			if direction.x < 0:
@@ -63,6 +63,9 @@ func take_damage(damage):
 		health -= damage
 		if health <= 0:
 			self.queue_free()
+		$AnimatedSprite2D.modulate = Color(255,255,255)
+		await get_tree().create_timer(0.2).timeout
+		$AnimatedSprite2D.modulate = color
 
 
 
@@ -85,7 +88,8 @@ func _on_player_dettection_area_2d_body_entered(body):
 
 func _on_attack_dettection_area_2d_body_entered(body):
 	attack_ready = true
-
+	#velocity = Vector2(-10, 0)
 func _on_attack_dettection_area_2d_body_exited(body):
 	attack_ready = false
+	#velocity = Vector2(0, 0)
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dn38fmpobc30r"
-path="res://.godot/imported/Idle.png-40bd0c3a4ed83cab2e27207410ff79e4.ctex"
+uid="uid://dxch8cu2cxpyc"
+path="res://.godot/imported/9.png-884828dbb999618d58277fcb3ee08a3a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Idle.png"
-dest_files=["res://.godot/imported/Idle.png-40bd0c3a4ed83cab2e27207410ff79e4.ctex"]
+source_file="res://Assets/free-exclusion-zone-tileset-pixel-art/3 Objects/Trees/9.png"
+dest_files=["res://.godot/imported/9.png-884828dbb999618d58277fcb3ee08a3a.ctex"]
 
 [params]
 

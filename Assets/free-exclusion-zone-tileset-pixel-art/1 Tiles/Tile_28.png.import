@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chqq1inywfbjt"
-path="res://.godot/imported/Hurt.png-92c2e1f81972b976f9b0b58459237b89.ctex"
+uid="uid://cscl52gk10y33"
+path="res://.godot/imported/Tile_28.png-e670abd1a03acaa9d0d706c00552fa5e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Hurt.png"
-dest_files=["res://.godot/imported/Hurt.png-92c2e1f81972b976f9b0b58459237b89.ctex"]
+source_file="res://Assets/free-exclusion-zone-tileset-pixel-art/1 Tiles/Tile_28.png"
+dest_files=["res://.godot/imported/Tile_28.png-e670abd1a03acaa9d0d706c00552fa5e.ctex"]
 
 [params]
 

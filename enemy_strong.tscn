@@ -1,0 +1,308 @@
+[gd_scene load_steps=24 format=3 uid="uid://4crppn3qk6go"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_j6qp7"]
+[ext_resource type="Texture2D" uid="uid://bkqb4ye6w0efm" path="res://Assets/Enemy/Attacks.png" id="2_yrpkl"]
+[ext_resource type="Texture2D" uid="uid://chqq1inywfbjt" path="res://Assets/Player/Hurt.png" id="3_hf2pp"]
+[ext_resource type="Texture2D" uid="uid://dn38fmpobc30r" path="res://Assets/Player/Idle.png" id="4_erxg4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qmsu3"]
+size = Vector2(19, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j275v"]
+atlas = ExtResource("2_yrpkl")
+region = Rect2(0, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osjbb"]
+atlas = ExtResource("2_yrpkl")
+region = Rect2(128, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7327y"]
+atlas = ExtResource("2_yrpkl")
+region = Rect2(256, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bn8kr"]
+atlas = ExtResource("2_yrpkl")
+region = Rect2(384, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t05a1"]
+atlas = ExtResource("2_yrpkl")
+region = Rect2(512, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3t3g"]
+atlas = ExtResource("2_yrpkl")
+region = Rect2(640, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i002n"]
+atlas = ExtResource("2_yrpkl")
+region = Rect2(768, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6n6s"]
+atlas = ExtResource("3_hf2pp")
+region = Rect2(0, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwaf8"]
+atlas = ExtResource("4_erxg4")
+region = Rect2(0, 0, 128, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p0tos"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j275v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osjbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7327y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bn8kr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t05a1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3t3g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i002n")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o6n6s")
+}],
+"loop": true,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwaf8")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uhjtk"]
+size = Vector2(23, 20)
+
+[sub_resource type="Animation" id="Animation_ptwt2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Attack"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D/AttackArea2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_s4m6a"]
+resource_name = "attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Attack"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [2, 3, 5, 6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D/AttackArea2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_pqqc4"]
+resource_name = "hurt"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Hurt"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_5ypvj"]
+resource_name = "idle"
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e7xfe"]
+_data = {
+"RESET": SubResource("Animation_ptwt2"),
+"attack": SubResource("Animation_s4m6a"),
+"hurt": SubResource("Animation_pqqc4"),
+"idle": SubResource("Animation_5ypvj")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqi71"]
+size = Vector2(1248, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_82toh"]
+size = Vector2(66, 20)
+
+[node name="EnemyStrong" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_j6qp7")
+color = Color(100, 0, 0, 1)
+speed = 150
+max_health = 30
+attack_power = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -23.5)
+shape = SubResource("RectangleShape2D_qmsu3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(0, -32)
+sprite_frames = SubResource("SpriteFrames_p0tos")
+animation = &"Attack"
+
+[node name="AttackArea2D" type="Area2D" parent="AnimatedSprite2D"]
+position = Vector2(0, 32)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/AttackArea2D"]
+position = Vector2(21.5, -21)
+shape = SubResource("RectangleShape2D_uhjtk")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_e7xfe")
+}
+autoplay = "idle"
+
+[node name="PlayerDettectionArea2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDettectionArea2D"]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_jqi71")
+
+[node name="AttackDettectionArea2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDettectionArea2D"]
+position = Vector2(0, -26)
+shape = SubResource("RectangleShape2D_82toh")
+
+[node name="Healthbar" type="ProgressBar" parent="."]
+modulate = Color(1, 0, 0, 1)
+offset_left = -12.0
+offset_right = 12.0
+offset_bottom = 6.0
+value = 13.0
+show_percentage = false
+
+[connection signal="body_entered" from="AnimatedSprite2D/AttackArea2D" to="." method="_on_attack_area_2d_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="PlayerDettectionArea2D" to="." method="_on_player_dettection_area_2d_body_entered"]
+[connection signal="body_entered" from="AttackDettectionArea2D" to="." method="_on_attack_dettection_area_2d_body_entered"]
+[connection signal="body_exited" from="AttackDettectionArea2D" to="." method="_on_attack_dettection_area_2d_body_exited"]
