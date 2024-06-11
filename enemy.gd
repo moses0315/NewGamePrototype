@@ -1,95 +1,131 @@
 extends CharacterBody2D
 
-@onready var anim = $AnimationPlayer
-@onready var sprite = $AnimatedSprite2D
-@onready var healthbar = $Healthbar
-@export var color : Color
+@export var character_name : String
 @export var speed: int
-
-@export var max_health: int
-var health
+@export var health: int
 @export var attack_power: int
 
-var is_attacking = false
-#var is_hurt = false
-var is_dead = false
+@export var is_sliding = false
+@export var slide_speed : int = 0 
 
-var attack_ready
-var player = null
+@onready var anim = $AnimationPlayer
+@onready var healthbar = $HealthBar
 
+enum States {IDLE, CHASE, ATTACK, HURT, DEATH}
+var current_state = States.IDLE
+var chase_target = null
+var attack_target = null
+var is_close = false
 
 
 func _ready():
-	$AnimatedSprite2D/AttackArea2D/CollisionShape2D.disabled = true
-	health = max_health
 	healthbar.max_value = health
-	$AnimatedSprite2D.modulate = color
+	
 func _physics_process(delta):
-	#Basic Enemy Process-------------------------
 	healthbar.value = health
-	if not is_attacking:
-		if player == null:
-			velocity.x = move_toward(velocity.x, 0, speed)
-			anim.play("idle")
-		elif attack_ready:
-			velocity.x = move_toward(velocity.x, 0, speed)
-			var direction = (player.position-position).normalized()
-			if direction.x < 0:
-				sprite.scale.x = -1
-			elif direction.x >= 0:
-				sprite.scale.x = 1
-			attack()
-		else:
-			var direction = (player.position-position).normalized()
-			if direction.x < 0:
-				sprite.scale.x = -1
-			elif direction.x >=0:
-				sprite.scale.x = 1
-			velocity.x = direction.x * speed
-			anim.play("idle")
-	elif is_attacking or attack_ready:
-		velocity.x = move_toward(velocity.x, 0, speed)
+	
+	match current_state:
+		States.IDLE:
+			if chase_target:
+				current_state = States.CHASE
+			velocity.x = 0
 
+		States.CHASE:
+			if not chase_target:
+				current_state = States.IDLE
+				anim.play("idle")
+			elif attack_target:
+				attack()
+			else:
+				var direction = (chase_target.position-position).normalized()
+				if direction.x < 0:
+					scale.y = -1
+					set_rotation_degrees(-180)
+					healthbar.scale.x = -1
+				elif direction.x >= 0:
+					scale.y = 1
+					set_rotation_degrees(0)
+					healthbar.scale.x = 1
+				velocity.x = direction.x * speed
+				anim.play("run")
+				
+
+		States.ATTACK:
+			if is_sliding:
+				if is_close:
+					velocity.x = -scale.y * slide_speed
+				else:
+					velocity.x = scale.y * slide_speed
+			else:
+				velocity.x = 0
+			
+		States.HURT:
+			velocity.x = 0
+			
+		States.DEATH:
+			velocity.x = 0
+			return
+	
 	move_and_slide()
 
 func attack():
-	is_attacking = true
+	current_state = States.ATTACK
+	is_close = false
 	anim.play("attack")
+	var direction = (chase_target.position-position).normalized()
+	if direction.x < 0:
+		scale.y = -1
+		set_rotation_degrees(-180)
+		healthbar.scale.x = -1
+	elif direction.x >= 0:
+		scale.y = 1
+		set_rotation_degrees(0)
+		healthbar.scale.x = 1
 
 func take_damage(damage):
-	if not is_dead:
-		$AnimatedSprite2D/AttackArea2D/CollisionShape2D.set_deferred("disabled", true)
-		is_attacking = false
-		health -= damage
-		if health <= 0:
-			self.queue_free()
-		$AnimatedSprite2D.modulate = Color(255,255,255)
-		await get_tree().create_timer(0.2).timeout
-		$AnimatedSprite2D.modulate = color
+	health -= damage
+	if health <= 0:
+		current_state = States.DEATH
+		anim.play("death")
+		await anim.animation_finished
+		queue_free()
+	elif character_name == "slugger":
+		pass
+	else:
+		
+		current_state = States.HURT
+		anim.play("hurt")
 
+func _on_player_detection_area_body_entered(body):
+	chase_target = body
+	
+func _on_player_detection_area_body_exited(body):
+	chase_target = null
+	
+func _on_attack_detection_area_body_entered(body):
+	attack_target = body
 
-
-
-
-
-func _on_attack_area_2d_body_entered(body):
+func _on_attack_detection_area_body_exited(body):
+	attack_target = null
+	
+func _on_attack_area_body_entered(body):
 	body.take_damage(attack_power)
 
-
+func _on_close_distance_area_body_entered(body):
+	is_close = true
+	
 func _on_animation_player_animation_finished(anim_name):
-	if not is_dead:
-		if anim_name == "attack":
-			is_attacking = false
-			anim.play("idle")
+	if anim_name == "attack":
+		current_state = States.IDLE
+		anim.play("idle")
+	if anim_name == "hurt":
+		current_state = States.IDLE
+		anim.play("idle")
 
-func _on_player_dettection_area_2d_body_entered(body):
-	player = body
+
+		
 
 
-func _on_attack_dettection_area_2d_body_entered(body):
-	attack_ready = true
-	#velocity = Vector2(-10, 0)
-func _on_attack_dettection_area_2d_body_exited(body):
-	attack_ready = false
-	#velocity = Vector2(0, 0)
+
+
 
