@@ -4,9 +4,11 @@ extends CharacterBody2D
 @export var speed: int
 @export var health: int
 @export var attack_power: int
+@export var dash_speed: int
 
 @export var is_sliding = false
 @export var slide_speed : int = 0 
+@export var is_pushed = false
 
 @onready var anim = $AnimationPlayer
 @onready var healthbar = $HealthBar
@@ -15,7 +17,11 @@ enum States {IDLE, CHASE, ATTACK, HURT, DEATH}
 var current_state = States.IDLE
 var chase_target = null
 var attack_target = null
+
 var is_close = false
+var is_middle = false
+
+var pushed_direction = 0
 
 
 func _ready():
@@ -49,7 +55,6 @@ func _physics_process(delta):
 				velocity.x = direction.x * speed
 				anim.play("run")
 				
-
 		States.ATTACK:
 			if is_sliding:
 				if is_close:
@@ -60,7 +65,10 @@ func _physics_process(delta):
 				velocity.x = 0
 			
 		States.HURT:
-			velocity.x = 0
+			if is_pushed:
+				velocity.x = pushed_direction
+			else:
+				velocity.x = 0
 			
 		States.DEATH:
 			velocity.x = 0
@@ -82,8 +90,9 @@ func attack():
 		set_rotation_degrees(0)
 		healthbar.scale.x = 1
 
-func take_damage(damage):
+func take_damage(damage, push_power, push_direction):
 	health -= damage
+	pushed_direction = push_direction * push_power
 	if health <= 0:
 		current_state = States.DEATH
 		anim.play("death")
@@ -109,10 +118,11 @@ func _on_attack_detection_area_body_exited(body):
 	attack_target = null
 	
 func _on_attack_area_body_entered(body):
-	body.take_damage(attack_power)
+	body.take_damage(attack_power, 200, scale.y)
 
 func _on_close_distance_area_body_entered(body):
 	is_close = true
+
 	
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "attack":

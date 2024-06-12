@@ -2,20 +2,29 @@ extends CharacterBody2D
 
 @export var is_sliding = false
 @export var slide_speed : int = 0  # Initialize slide_speed as a float
+@export var is_pushed = false
 var a : int = 0
 
 @onready var anim = $AnimationPlayer
 @onready var healthbar = $HealthBar
 
-enum States {IDLE, RUN, ATTACK, HURT, DEATH}
+enum States {IDLE, RUN, DASH, ATTACK, HURT, DEATH}
 var current_state = States.IDLE
+
+var is_invincible = false
+var dash_ready = true
 
 var pressed = []
 var direction = "still"
 
+var attack_type = ["attack_1", "attack_2", "attack_3"]
+var attack_stat = 0
+
 var speed = 150
-var health = 300
+var health = 100
 var attack_power = 10
+
+var pushed_direction = 0
 
 
 
@@ -28,12 +37,19 @@ func _physics_process(delta):
 		States.IDLE:
 			if direction != "still":
 				current_state = States.RUN
-			elif Input.is_action_pressed("skill"):
-				current_state = States.ATTACK
-				anim.play("attack_standing")
+			elif Input.is_action_pressed("dash") and dash_ready:
+				current_state = States.DASH
+				is_invincible = true
+				dash_ready = false
+				$DashTimer.start()
+				anim.play("dash")
 			elif Input.is_action_pressed("attack"):
 				current_state = States.ATTACK
-				anim.play("attack_sliding")
+				anim.play(attack_type[attack_stat])
+				attack_stat += 1
+				$AttackStatTimer.start()
+				if attack_stat >= 3:
+					attack_stat = 0
 			velocity.x = 0
 				
 		States.RUN:
@@ -41,12 +57,19 @@ func _physics_process(delta):
 				current_state = States.IDLE
 				velocity.x = 0
 				anim.play("idle")
-			elif Input.is_action_pressed("skill"):
-				current_state = States.ATTACK
-				anim.play("attack_standing")
+			elif Input.is_action_pressed("dash") and dash_ready:
+				current_state = States.DASH
+				is_invincible = true
+				dash_ready = false
+				$DashTimer.start()
+				anim.play("dash")
 			elif Input.is_action_pressed("attack"):
 				current_state = States.ATTACK
-				anim.play("attack_sliding")
+				anim.play(attack_type[attack_stat])
+				attack_stat += 1
+				$AttackStatTimer.start()
+				if attack_stat >= 3:
+					attack_stat = 0
 			else:
 				if direction == "left":
 					scale.y = -1
@@ -63,6 +86,10 @@ func _physics_process(delta):
 				elif direction == "still":
 					velocity.x = 0
 				anim.play("run")
+				
+		States.DASH:
+			velocity.x = scale.y * 300
+			
 		States.ATTACK:
 			#a = lerp(a, int(0), delta * 15.0)  # Convert pushback_force to float
 			#if is_sliding:
@@ -74,7 +101,10 @@ func _physics_process(delta):
 				velocity.x = 0
 			
 		States.HURT:
-			velocity.x = 0
+			if is_pushed:
+				velocity.x = pushed_direction
+			else :
+				velocity.x = 0
 			
 		States.DEATH:
 			velocity.x = 0
@@ -102,25 +132,32 @@ func _input(event):
 	else:
 		direction = "still"
 		
-func take_damage(damage):
+func take_damage(damage, push_power, push_direction):
+	if is_invincible:
+		return
 	health -= damage
+	pushed_direction = push_direction * push_power
 	if health <= 0:
 		current_state = States.DEATH
 		anim.play("death")
 		await anim.animation_finished
 		queue_free()
-	else:	
+	else:
 		current_state = States.HURT
 		anim.play("hurt")
 
 
 	
 func _on_attack_area_body_entered(body):
-	body.take_damage(attack_power)
+	body.take_damage(attack_power, 90, scale.y)
+
+func _on_attack_3_area_body_entered(body):
+	body.take_damage(attack_power, 300, scale.y)
 
 func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "attack_standing" or\
-	anim_name == "attack_sliding":
+	if anim_name == "attack_1" or\
+	anim_name == "attack_2" or\
+	anim_name == "attack_3":
 		current_state = States.IDLE
 		anim.play("idle")
 		if direction == "left":
@@ -131,12 +168,14 @@ func _on_animation_player_animation_finished(anim_name):
 			scale.y = 1
 			set_rotation_degrees(0)
 			healthbar.scale.x = 1
-	if anim_name == "hurt":
+	if anim_name == "hurt" or\
+	anim_name == "dash":
 		current_state = States.IDLE
+		is_invincible = false
 		anim.play("idle")
 
+func _on_attack_stat_timer_timeout():
+	attack_stat = 0
 
-		
-
-
-
+func _on_dash_timer_timeout():
+	dash_ready = true
