@@ -471,6 +471,7 @@ script = ExtResource("1_gbrt2")
 speed = 170
 health = 30
 attack_power = 5
+pushing_power = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -21.5)
@@ -531,4 +532,5 @@ one_shot = true
 [connection signal="body_entered" from="AttackDetectionArea" to="." method="_on_attack_detection_area_body_entered"]
 [connection signal="body_exited" from="AttackDetectionArea" to="." method="_on_attack_detection_area_body_exited"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="HurtTimer" to="." method="_on_hurt_timer_timeout"]

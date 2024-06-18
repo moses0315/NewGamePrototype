@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://il5jfqymcmfc" path="res://player.tscn" id="2_37eh8"]
 [ext_resource type="PackedScene" uid="uid://cbmj3re1mv3i4" path="res://enemy_strong.tscn" id="4_gbi38"]
 [ext_resource type="Texture2D" uid="uid://dh86sdit62b58" path="res://New Piskel.png" id="4_nxmst"]
-[ext_resource type="PackedScene" uid="uid://2x4usy406530" path="res://enemy_fast.tscn" id="5_eckhk"]
+[ext_resource type="PackedScene" uid="uid://2x4usy406530" path="res://enemy_fast.tscn" id="5_cs7pn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bfkdf"]
 atlas = ExtResource("4_nxmst")
@@ -96,5 +96,6 @@ frame_progress = 0.0795876
 [node name="EnemyStrong" parent="." instance=ExtResource("4_gbi38")]
 position = Vector2(610, 367)
 
-[node name="EnemyFast" parent="." instance=ExtResource("5_eckhk")]
-position = Vector2(237, 367)
+[node name="EnemyFast" parent="." instance=ExtResource("5_cs7pn")]
+position = Vector2(249, 368)
+speed = 200

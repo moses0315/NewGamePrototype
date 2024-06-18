@@ -14,6 +14,7 @@ var current_state = States.IDLE
 var enemies = []
 
 var is_invincible = false
+var is_hurt = false
 var dash_ready = true
 
 var pressed = []
@@ -23,10 +24,10 @@ var attack_type = ["attack_1", "attack_2", "attack_3"]
 var attack_stat = 0
 
 var speed = 215
-var health = 10000
+var health = 100
 var attack_power = 10
 
-var pushed_direction = 0
+@export var pushed_direction = 0
 
 func _ready():
 	healthbar.max_value = health
@@ -43,12 +44,16 @@ func _physics_process(delta):
 		States.ATTACK:
 			handle_attack()
 		States.HURT:
-			handle_hurt()
+			if is_pushed:
+				velocity.x = pushed_direction
+			else:
+				velocity.x = 0
+				pushed_direction = 0
 		States.DEATH:
 			handle_death()
 
 	move_and_slide()
-
+	
 func handle_idle():
 	if direction != "still":
 		current_state = States.RUN
@@ -110,21 +115,14 @@ func handle_attack():
 		velocity.x = scale.y * slide_speed
 	else:
 		velocity.x = 0
-	for enemy in enemies:
-		if enemy[0].is_hurt and enemy[0].current_state != enemy[0].States.HURT:
-			if enemy[1] == "attack":
-				enemy[0].take_damage(attack_power, 30, scale.y)
-			elif enemy[1] == "attack_last":
-				enemy[0].take_damage(attack_power, 200, scale.y)
 
 func handle_hurt():
 	if is_pushed:
 		velocity.x = pushed_direction
-		$Label.text = str(pushed_direction, "pushed!")
 	else:
-		#velocity.x = 0
+		velocity.x = 0
 		pushed_direction = 0
-
+		
 func handle_death():
 	velocity.x = 0
 	return
@@ -148,38 +146,33 @@ func _input(event):
 func take_damage(damage, push_power, push_direction):
 	if is_invincible:
 		return
+	anim.play("hurt")
 	health -= damage
 	attack_stat = 0
 	pushed_direction += push_direction * push_power
-	$Label.text = str(pushed_direction)
+
 	if health <= 0:
 		current_state = States.DEATH
 		anim.play("death")
+		await anim.animation_finished
 		queue_free()
 	else:
 		current_state = States.HURT
+		anim.stop()
 		anim.play("hurt")
+		
 
 
 
 
 func _on_attack_area_body_entered(body):
-	body.is_hurt = true
 	body.take_damage(attack_power, 30, scale.y)
 	enemies.append([body, "attack"])
 
 func _on_attack_last_area_body_entered(body):
-	body.is_hurt = true
 	body.take_damage(attack_power, 200, scale.y)
 	enemies.append([body, "attack_last"])
 	
-func _on_attack_area_body_exited(body):
-	body.is_hurt = false
-	enemies.erase([body, "attack"])
-
-func _on_attack_last_area_body_exited(body):
-	body.is_hurt = false
-	enemies.erase([body, "attack_last"])
 	
 func _on_attack_stat_timer_timeout():
 	attack_stat = 0

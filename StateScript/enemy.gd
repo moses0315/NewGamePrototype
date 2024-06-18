@@ -20,7 +20,6 @@ var chase_target = null
 var attack_target = null
 
 var is_close = false
-var is_hurt = false
 
 var pushed_direction = 0
 
@@ -83,7 +82,7 @@ func handle_attack_state():
 		velocity.x = scale.y * slide_speed * (1 if is_close else -1)
 	else:
 		velocity.x = 0
-
+	
 
 func handle_hurt_state():
 	# Handle hurt state
@@ -124,8 +123,9 @@ func take_damage(damage: int, push_power: int, push_direction: int):
 		queue_free()
 	else:
 		current_state = States.HURT
+		anim.stop()
 		anim.play("hurt")
-		#$HurtTimer.start()
+
 		
 	a += 1
 
@@ -152,14 +152,8 @@ func _on_attack_detection_area_body_exited(body):
 func _on_attack_area_body_entered(body):
 	body.take_damage(attack_power, pushing_power, scale.y)
 
-
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "attack" or anim_name == "hurt":
 		current_state = States.IDLE
 		anim.play("idle")
-
-
-
-
-
 

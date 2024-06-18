@@ -608,7 +608,7 @@ size = Vector2(38, 20)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_88dn5")
-speed = 100
+speed = 170
 health = 60
 attack_power = 10
 pushing_power = 200
@@ -671,4 +671,5 @@ one_shot = true
 [connection signal="body_entered" from="AttackDetectionArea" to="." method="_on_attack_detection_area_body_entered"]
 [connection signal="body_exited" from="AttackDetectionArea" to="." method="_on_attack_detection_area_body_exited"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="HurtTimer" to="." method="_on_hurt_timer_timeout"]
