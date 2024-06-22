@@ -1,7 +1,7 @@
 [gd_scene load_steps=43 format=3 uid="uid://2x4usy406530"]
 
 [ext_resource type="Texture2D" uid="uid://dy0m2aomn2duk" path="res://Sprites/Heavy Bandit/HeavyBandit.png" id="1_cjuhh"]
-[ext_resource type="Script" path="res://StateScript/enemy.gd" id="1_gbrt2"]
+[ext_resource type="Script" path="res://enemy.gd" id="1_gbrt2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ngsne"]
 size = Vector2(20, 43)
@@ -468,10 +468,10 @@ size = Vector2(22, 20)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_gbrt2")
-speed = 170
+speed = 200
 health = 30
 attack_power = 5
-pushing_power = 100
+pushing_power = 200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -21.5)

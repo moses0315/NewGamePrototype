@@ -1,7 +1,7 @@
 [gd_scene load_steps=65 format=3 uid="uid://il5jfqymcmfc"]
 
 [ext_resource type="Texture2D" uid="uid://ba67ocstm0xvy" path="res://Colour1/Outline/120x80_PNGSheets/_Idle.png" id="1_gh8vd"]
-[ext_resource type="Script" path="res://StateScript/player.gd" id="1_or5lj"]
+[ext_resource type="Script" path="res://player.gd" id="1_or5lj"]
 [ext_resource type="Texture2D" uid="uid://dk7o61heci27l" path="res://Colour1/Outline/120x80_PNGSheets/_AttackComboNoMovement.png" id="2_lsa82"]
 [ext_resource type="Texture2D" uid="uid://bjkhh0u5ew5x0" path="res://Colour1/Outline/120x80_PNGSheets/_Dash.png" id="3_54nhi"]
 [ext_resource type="Texture2D" uid="uid://bpmxed47t65fu" path="res://Colour1/Outline/120x80_PNGSheets/_Death.png" id="4_mb82k"]
@@ -505,7 +505,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [60]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_g2apq"]
@@ -569,7 +569,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [60]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_ddxp0"]
@@ -633,12 +633,12 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [60]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_ewda3"]
 resource_name = "dash"
-length = 0.2
+length = 0.15
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -670,7 +670,7 @@ tracks/2/path = NodePath("AnimatedSprite2D:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.15),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [Color(2, 2, 2, 1), Color(1, 1, 1, 1)]
@@ -873,14 +873,15 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xpmdq"]
-size = Vector2(46, 20)
+size = Vector2(45, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbqle"]
-size = Vector2(46, 20)
+size = Vector2(45, 20)
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 0
 script = ExtResource("1_or5lj")
+slide_speed = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -24)
@@ -902,7 +903,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="AttackCollisionShape" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(23, -15)
+position = Vector2(22.5, -15)
 shape = SubResource("RectangleShape2D_xpmdq")
 disabled = true
 
@@ -911,7 +912,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="AttackLastCollisionShape" type="CollisionShape2D" parent="AttackLastArea"]
-position = Vector2(23, -20)
+position = Vector2(22.5, -20)
 shape = SubResource("RectangleShape2D_pbqle")
 disabled = true
 
@@ -930,9 +931,6 @@ wait_time = 0.5
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.5
 
-[node name="Timer" type="Timer" parent="."]
-autostart = true
-
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
@@ -944,4 +942,3 @@ offset_bottom = 23.0
 [connection signal="body_exited" from="AttackLastArea" to="." method="_on_attack_last_area_body_exited"]
 [connection signal="timeout" from="AttackStatTimer" to="." method="_on_attack_stat_timer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

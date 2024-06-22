@@ -1,6 +1,6 @@
 [gd_scene load_steps=60 format=3 uid="uid://cbmj3re1mv3i4"]
 
-[ext_resource type="Script" path="res://StateScript/enemy.gd" id="1_88dn5"]
+[ext_resource type="Script" path="res://enemy.gd" id="1_88dn5"]
 [ext_resource type="Texture2D" uid="uid://chdlw7e3x8tdl" path="res://Colour2/Outline/120x80_PNGSheets/_AttackComboNoMovement.png" id="2_07fjh"]
 [ext_resource type="Texture2D" uid="uid://c6vmu6yqpnrxq" path="res://Colour2/Outline/120x80_PNGSheets/_Death.png" id="3_ugojb"]
 [ext_resource type="Texture2D" uid="uid://b4nepbvscky73" path="res://Colour2/Outline/120x80_PNGSheets/_Hit.png" id="4_ql3hm"]
@@ -599,16 +599,16 @@ _data = {
 size = Vector2(1070, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hpwi8"]
-size = Vector2(76, 4)
+size = Vector2(92, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_50r7e"]
-size = Vector2(38, 20)
+size = Vector2(46, 20)
 
 [node name="EnemyStrong" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_88dn5")
-speed = 170
+speed = 150
 health = 60
 attack_power = 10
 pushing_power = 200
@@ -645,7 +645,7 @@ shape = SubResource("RectangleShape2D_hpwi8")
 collision_layer = 0
 
 [node name="AttackCollisionShape" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(19, -20)
+position = Vector2(23, -20)
 shape = SubResource("RectangleShape2D_50r7e")
 disabled = true
 

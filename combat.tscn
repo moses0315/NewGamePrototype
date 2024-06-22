@@ -96,6 +96,17 @@ frame_progress = 0.0795876
 [node name="EnemyStrong" parent="." instance=ExtResource("4_gbi38")]
 position = Vector2(610, 367)
 
+[node name="EnemyStrong2" parent="." instance=ExtResource("4_gbi38")]
+position = Vector2(0, 367)
+
+[node name="EnemyStrong3" parent="." instance=ExtResource("4_gbi38")]
+position = Vector2(900, 367)
+
 [node name="EnemyFast" parent="." instance=ExtResource("5_cs7pn")]
-position = Vector2(249, 368)
-speed = 200
+position = Vector2(250, 367)
+
+[node name="EnemyFast2" parent="." instance=ExtResource("5_cs7pn")]
+position = Vector2(0, 367)
+
+[node name="EnemyFast3" parent="." instance=ExtResource("5_cs7pn")]
+position = Vector2(800, 367)
