@@ -1,83 +1,38 @@
-[gd_scene load_steps=16 format=3 uid="uid://b5hu3epxlwpd2"]
+[gd_scene load_steps=6 format=3 uid="uid://b5hu3epxlwpd2"]
 
+[ext_resource type="Script" path="res://combat.gd" id="1_xc6lp"]
 [ext_resource type="Texture2D" uid="uid://e4yycawnj1ke" path="res://icon.svg" id="1_y3s60"]
 [ext_resource type="PackedScene" uid="uid://il5jfqymcmfc" path="res://player.tscn" id="2_37eh8"]
-[ext_resource type="PackedScene" uid="uid://cbmj3re1mv3i4" path="res://enemy_strong.tscn" id="4_gbi38"]
-[ext_resource type="Texture2D" uid="uid://dh86sdit62b58" path="res://New Piskel.png" id="4_nxmst"]
-[ext_resource type="PackedScene" uid="uid://2x4usy406530" path="res://enemy_fast.tscn" id="5_cs7pn"]
+[ext_resource type="Texture2D" uid="uid://dh86sdit62b58" path="res://New Piskel.png" id="4_5mnnn"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bfkdf"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v25c5"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_apxsh"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2xtcr"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(0, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mukeu"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(32, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_j2bmo"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(64, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_eaefc"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(0, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5sgcv"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(32, 64, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wq0ny"]
-atlas = ExtResource("4_nxmst")
-region = Rect2(64, 64, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_a2133"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bfkdf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v25c5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_apxsh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2xtcr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mukeu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_j2bmo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eaefc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5sgcv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wq0ny")
-}],
-"loop": true,
-"name": &"default",
-"speed": 1.0
-}]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0khcb"]
+size = Vector2(20, 454)
 
 [node name="Combat" type="Node2D"]
+script = ExtResource("1_xc6lp")
+
+[node name="NewPiskel" type="Sprite2D" parent="."]
+position = Vector2(0, 353)
+texture = ExtResource("4_5mnnn")
+
+[node name="NewPiskel2" type="Sprite2D" parent="."]
+position = Vector2(1000, 353)
+texture = ExtResource("4_5mnnn")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 217)
+shape = SubResource("RectangleShape2D_0khcb")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(1000, 0)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(0, 217)
+shape = SubResource("RectangleShape2D_0khcb")
 
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(669, 404)
@@ -87,26 +42,8 @@ texture = ExtResource("1_y3s60")
 [node name="Player" parent="." instance=ExtResource("2_37eh8")]
 position = Vector2(407, 367)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(358, 279)
-sprite_frames = SubResource("SpriteFrames_a2133")
-autoplay = "default"
-frame_progress = 0.0795876
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
 
-[node name="EnemyStrong" parent="." instance=ExtResource("4_gbi38")]
-position = Vector2(610, 367)
-
-[node name="EnemyStrong2" parent="." instance=ExtResource("4_gbi38")]
-position = Vector2(0, 367)
-
-[node name="EnemyStrong3" parent="." instance=ExtResource("4_gbi38")]
-position = Vector2(900, 367)
-
-[node name="EnemyFast" parent="." instance=ExtResource("5_cs7pn")]
-position = Vector2(250, 367)
-
-[node name="EnemyFast2" parent="." instance=ExtResource("5_cs7pn")]
-position = Vector2(0, 367)
-
-[node name="EnemyFast3" parent="." instance=ExtResource("5_cs7pn")]
-position = Vector2(800, 367)
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
